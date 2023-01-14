@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+    />
+    <title>Document</title>
+  </head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    #timetable table,
+    #timetable th,
+    #timetable td {
+      border: 1px solid gray;
+      border-collapse: collapse;
+    }
+    th {
+      text-align: center;
+    }
+    th, td {
+      font-size: medium;
+    }
+  </style>
+  <body>
+    <header style="height: 5vh;padding: 0;display: flex; align-items: center;justify-content: center;">
+      <h3 style="text-align: center;margin: 0;padding: 0;">아주대학교 시간표 만들기</h3>
+    </header>
+
+    <main
+      style="
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 2rem;
+        height: 90vh;
+        padding: 0;
+      "
+    >
+      <div style="height: 100%; overflow: auto; padding: 1rem">
+        <table id="timetable" style="table-layout: fixed;">
+          <caption>
+            <h5>시간표</h5>
+          </caption>
+          <thead>
+            <tr>
+              <th>시간</th>
+              <th>일</th>
+              <th>월</th>
+              <th>화</th>
+              <th>수</th>
+              <th>목</th>
+              <th>금</th>
+              <th>토</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div style="height: 100%; overflow: auto; padding: 1rem">
+        <table id="lectures">
+          <caption>
+            <h5>수업목록</h5>
+          </caption>
+          <thead>
+            <tr>
+              <th></th>
+              <th>개설학과</th>
+              <th>과목코드</th>
+              <th>과목명</th>
+              <th>교수명</th>
+              <th>시간</th>
+              <th>강의실</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tr></tr>
+        </table>
+      </div>
+    </main>
+
+    <footer style="height: 5vh;margin: 0;padding: 0;display: flex; align-items: center;justify-content: center;">
+      Made By <a href="https://github.com/parkjbdev">parkjbdev</a>🐶
+    </footer>
+    <script src="./convert.js"></script>
+    <script>
+      fetch("./list.json")
+        .then((res) => res.json())
+        .then(convert)
+        .then((data) => {
+          for (const lect of data) {
+            const td0 = document.createElement("td");
+            const checkbox = document.createElement("input");
+            td0.appendChild(checkbox);
+            checkbox.type = "checkbox";
+            checkbox.name = "lecture";
+            checkbox.value = lect["tlsnNo"];
+            checkbox.addEventListener("change", (event) => {
+              const chk_arr = document.querySelectorAll(
+                "input[name='lecture']"
+              );
+              const selectedLectures = [];
+              for (let i = 0; i < chk_arr.length; i++) {
+                chk_arr[i].value;
+                if (chk_arr[i].checked) selectedLectures.push(chk_arr[i].value);
+              }
+
+              drawTimeTable(
+                data.filter((datum) =>
+                  selectedLectures.includes(datum["tlsnNo"])
+                )
+              );
+            });
+            const td1 = document.createElement("td");
+            td1.innerHTML = lect["sustCdNm"];
+            const td2 = document.createElement("td");
+            td2.innerHTML = lect["tlsnNo"];
+            const td3 = document.createElement("td");
+            td3.innerHTML = lect["sbjtKorNm"];
+            const td4 = document.createElement("td");
+            td4.innerHTML = lect["maLecturerEmplNm"];
+            const td5 = document.createElement("td");
+            td5.innerHTML = lect["ltTmNm"];
+            const td6 = document.createElement("td");
+            td6.innerHTML = lect["ltRoomNm"];
+            const tr = document.createElement("tr");
+            tr.appendChild(td0);
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            tr.appendChild(td5);
+            tr.appendChild(td6);
+
+            document.querySelector("#lectures>tbody").appendChild(tr);
+          }
+        });
+    </script>
+    <script>
+      const numToTimeString = (numTime) => {
+        const hour = Math.floor(numTime).toString();
+        const min = ((numTime - hour) * 60).toString();
+
+        return `${hour.padStart(2, "0")}:${min.padStart(2, "0")}`;
+      };
+
+      const timeTableInit = () => {
+        if (document.querySelector("#timetable>tbody") !== null)
+          document.querySelector("#timetable>tbody").remove();
+        document
+          .querySelector("#timetable")
+          .appendChild(document.createElement("tbody"));
+
+        const timetable = document.querySelector("#timetable>tbody");
+        for (let i = 9; i <= 24; i += 0.25) {
+          const th = document.createElement("th");
+          th.innerHTML = numToTimeString(i);
+          th.style = "font-size: small;padding: 1";
+          const tr = document.createElement("tr");
+          tr.appendChild(th);
+          tr.appendChild(document.createElement("td"));
+          tr.appendChild(document.createElement("td"));
+          tr.appendChild(document.createElement("td"));
+          tr.appendChild(document.createElement("td"));
+          tr.appendChild(document.createElement("td"));
+          tr.appendChild(document.createElement("td"));
+          tr.appendChild(document.createElement("td"));
+          tr.id = `timeblock-${i}`;
+          timetable.appendChild(tr);
+        }
+      };
+
+      const drawTimeTable = (selectedLectures) => {
+        timeTableInit();
+        for (const selectedLecture of selectedLectures) {
+          const times = selectedLecture["ltTmNmConv"];
+          const hsl = `hsl(${Math.floor(Math.random() * 360)},${Math.floor(
+            Math.random() * (100 + 1)
+          )}%,${Math.floor((1 + Math.random()) * (100 / 2 + 1))}%)`;
+          for (const time of times) {
+            // day, startTime, endTime
+            const spanCount = (time["endTime"] - time["startTime"]) * 4;
+            const day = time["day"];
+            const timeblock = document.querySelectorAll(
+              `#timeblock-${time["startTime"]}>td`.replace(".", "\\.")
+            )[day];
+
+            // hide blank td
+            for (
+              let i = time["startTime"] + 0.25;
+              i < time["endTime"];
+              i += 0.25
+            )
+              document
+                .querySelectorAll(`#timeblock-${i}>td`.replace(".", "\\."))
+                [day].setAttribute("style", "display:none;");
+
+            timeblock.setAttribute("bgcolor", hsl);
+            timeblock.setAttribute("rowspan", spanCount);
+            timeblock.innerHTML = `${selectedLecture["sbjtKorNm"]}(${selectedLecture["maLecturerEmplNm"]})<br/>${selectedLecture["ltRoomNm"]}`;
+          }
+        }
+      };
+
+      drawTimeTable([]);
+    </script>
+  </body>
+</html>
