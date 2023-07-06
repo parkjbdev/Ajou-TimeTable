@@ -164,6 +164,7 @@
 
     <script src="./convert.js"></script>
     <script>
+      const selectedLectures = [];
       fetch("./list.json")
         .then((res) => res.json())
         .then(convert)
@@ -177,7 +178,8 @@
             allowSelection: true,
             selectionSettings: {
               type: "Multiple",
-              enableSimpleMultiRowSelection: true,
+              // enableSimpleMultiRowSelection: true,
+              persistSelection: true,
             },
             filterSettings: { type: "Excel" },
             height: "70vh",
@@ -262,7 +264,6 @@
 
       const drawTimeTable = (selectedLectures) => {
         timeTableInit();
-        console.log(selectedLectures);
         for (const selectedLecture of selectedLectures) {
           const times = selectedLecture["ltTmNmConv"];
           const hsl = `hsl(${Math.floor(Math.random() * 360)},${Math.floor(
@@ -287,7 +288,7 @@
                 [day].setAttribute("style", "display:none;");
 
             // timeblock.setAttribute("bgcolor", hsl);
-            timeblock.setAttribute("style", `background-color:${hsl};`)
+            timeblock.setAttribute("style", `background-color:${hsl};`);
             timeblock.setAttribute("rowspan", spanCount);
             timeblock.innerHTML = `${selectedLecture["sbjtKorNm"]}(${selectedLecture["maLecturerEmplNm"]})<br/>${selectedLecture["ltRoomNm"]}`;
           }
