@@ -22,7 +22,7 @@ const convert = (lect_list) => {
     for (const key of keys) {
       if (key === "ltTmNm") {
         const ltTmNms = lect[key]
-          .replace(/\([^\(\)]+\)/g, "")
+          .replace(/\([^\(\)]*\)/g, "")
           .replace("  ", " ")
           .split(" ")
           .filter((val) => val !== "");
@@ -59,7 +59,7 @@ const convert = (lect_list) => {
           else times.push({ day, startTime, endTime });
         }
         result["ltTmNm"] = lect[key]
-          .replace(/\([^\(\)]+\)/g, "")
+          .replace(/\([^\(\)]*\)/g, "")
           .replace("  ", " ")
           .split(" ")
           .filter((val) => val !== "")

@@ -4,48 +4,107 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajou TimeTable</title>
     <link
+      href="//cdn.syncfusion.com/ej2/20.4.38/ej2-base/styles/material.css"
       rel="stylesheet"
-      href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
     />
-    <title>Document</title>
+    <link
+      href="//cdn.syncfusion.com/ej2/20.4.38/ej2-grids/styles/material.css"
+      rel="stylesheet"
+    />
+    <link
+      href="//cdn.syncfusion.com/ej2/20.4.38/ej2-buttons/styles/material.css"
+      rel="stylesheet"
+    />
+    <link
+      href="//cdn.syncfusion.com/ej2/20.4.38/ej2-popups/styles/material.css"
+      rel="stylesheet"
+    />
+    <link
+      href="//cdn.syncfusion.com/ej2/20.4.38/ej2-navigations/styles/material.css"
+      rel="stylesheet"
+    />
+    <link
+      href="//cdn.syncfusion.com/ej2/20.4.38/ej2-dropdowns/styles/material.css"
+      rel="stylesheet"
+    />
+    <link
+      href="//cdn.syncfusion.com/ej2/20.4.38/ej2-lists/styles/material.css"
+      rel="stylesheet"
+    />
+    <link
+      href="//cdn.syncfusion.com/ej2/20.4.38/ej2-inputs/styles/material.css"
+      rel="stylesheet"
+    />
+    <link
+      href="//cdn.syncfusion.com/ej2/20.4.38/ej2-calendars/styles/material.css"
+      rel="stylesheet"
+    />
+    <link
+      href="//cdn.syncfusion.com/ej2/20.4.38/ej2-notifications/styles/material.css"
+      rel="stylesheet"
+    />
+    <link
+      href="//cdn.syncfusion.com/ej2/20.4.38/ej2-splitbuttons/styles/material.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdn.syncfusion.com/ej2/20.4.38/dist/ej2.min.js"
+      type="text/javascript"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
   </head>
+  <style>
+    .e-row[aria-selected="true"] .e-customizedExpandcell {
+      background-color: #e0e0e0;
+    }
+    .e-grid.e-gridhover tr[role="row"]:hover {
+      background-color: #eee;
+    }
+    .e-expand::before {
+      content: "\e5b8";
+    }
+  </style>
   <style>
     * {
       box-sizing: border-box;
     }
-    #timetable table,
-    #timetable th,
-    #timetable td {
-      border: 1px solid gray;
-      border-collapse: collapse;
-    }
-    th {
-      text-align: center;
-    }
-    th, td {
-      font-size: medium;
-    }
   </style>
   <body>
-    <header style="height: 5vh;padding: 0;display: flex; align-items: center;justify-content: center;">
-      <h3 style="text-align: center;margin: 0;padding: 0;">아주대학교 시간표 만들기</h3>
-    </header>
+    <div class="col-xs-12" style="height: 100px"></div>
 
-    <main
+    <header
       style="
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        column-gap: 2rem;
-        height: 90vh;
+        height: 5vh;
         padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       "
     >
-      <div style="height: 100%; overflow: auto; padding: 1rem">
-        <table id="timetable" style="table-layout: fixed;">
-          <caption>
-            <h5>시간표</h5>
-          </caption>
+      <h3 style="text-align: center; margin: 0; padding: 0">
+        아주대학교 시간표
+      </h3>
+    </header>
+
+    <main style="display: flex; flex-wrap: wrap; width: 100%; padding: 0">
+      <div style="padding: 1rem">
+        <table
+          id="timetable"
+          class="table table-sm"
+          style="table-layout: fixed"
+        >
           <thead>
             <tr>
               <th>시간</th>
@@ -61,83 +120,110 @@
           <tbody></tbody>
         </table>
       </div>
-      <div style="height: 100%; overflow: auto; padding: 1rem">
-        <table id="lectures">
-          <caption>
-            <h5>수업목록</h5>
-          </caption>
-          <thead>
-            <tr>
-              <th></th>
-              <th>개설학과</th>
-              <th>과목코드</th>
-              <th>과목명</th>
-              <th>교수명</th>
-              <th>시간</th>
-              <th>강의실</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-          <tr></tr>
-        </table>
-      </div>
     </main>
-
-    <footer style="height: 5vh;margin: 0;padding: 0;display: flex; align-items: center;justify-content: center;">
+    <footer
+      style="
+        height: 2vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      "
+    >
       Made By <a href="https://github.com/parkjbdev">parkjbdev</a>🐶
     </footer>
+    <div class="col-xs-12" style="height: 100px"></div>
+
+    <div class="accordion m-3 fixed-bottom" id="lect_list_accordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseOne"
+            aria-expanded="false"
+            aria-controls="collapseOne"
+          >
+            강의목록
+          </button>
+        </h2>
+        <div
+          id="collapseOne"
+          class="accordion-collapse collapse"
+          data-bs-parent="#lect_list_accordion"
+        >
+          <div class="accordion-body">
+            <p id="last_updated" class="text-secondary"></p>
+            <div id="Grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="./convert.js"></script>
     <script>
       fetch("./list.json")
         .then((res) => res.json())
         .then(convert)
         .then((data) => {
-          for (const lect of data) {
-            const td0 = document.createElement("td");
-            const checkbox = document.createElement("input");
-            td0.appendChild(checkbox);
-            checkbox.type = "checkbox";
-            checkbox.name = "lecture";
-            checkbox.value = lect["tlsnNo"];
-            checkbox.addEventListener("change", (event) => {
-              const chk_arr = document.querySelectorAll(
-                "input[name='lecture']"
-              );
-              const selectedLectures = [];
-              for (let i = 0; i < chk_arr.length; i++) {
-                chk_arr[i].value;
-                if (chk_arr[i].checked) selectedLectures.push(chk_arr[i].value);
-              }
-
-              drawTimeTable(
-                data.filter((datum) =>
-                  selectedLectures.includes(datum["tlsnNo"])
-                )
-              );
-            });
-            const td1 = document.createElement("td");
-            td1.innerHTML = lect["sustCdNm"];
-            const td2 = document.createElement("td");
-            td2.innerHTML = lect["tlsnNo"];
-            const td3 = document.createElement("td");
-            td3.innerHTML = lect["sbjtKorNm"];
-            const td4 = document.createElement("td");
-            td4.innerHTML = lect["maLecturerEmplNm"];
-            const td5 = document.createElement("td");
-            td5.innerHTML = lect["ltTmNm"];
-            const td6 = document.createElement("td");
-            td6.innerHTML = lect["ltRoomNm"];
-            const tr = document.createElement("tr");
-            tr.appendChild(td0);
-            tr.appendChild(td1);
-            tr.appendChild(td2);
-            tr.appendChild(td3);
-            tr.appendChild(td4);
-            tr.appendChild(td5);
-            tr.appendChild(td6);
-
-            document.querySelector("#lectures>tbody").appendChild(tr);
-          }
+          const grid = new ej.grids.Grid({
+            dataSource: data,
+            allowSorting: true,
+            allowFiltering: true,
+            allowGrouping: true,
+            allowReordering: true,
+            allowSelection: true,
+            selectionSettings: {
+              type: "Multiple",
+              enableSimpleMultiRowSelection: true,
+            },
+            filterSettings: { type: "Excel" },
+            height: "70vh",
+            columns: [
+              {
+                type: "checkbox",
+                allowFiltering: false,
+                allowSorting: false,
+                width: "45",
+              },
+              {
+                field: "sustCdNm",
+                headerText: "개설학과",
+                allowGrouping: true,
+              },
+              {
+                field: "tlsnNo",
+                headerText: "수강번호",
+                isPrimaryKey: true,
+              },
+              {
+                field: "sbjtKorNm",
+                headerText: "과목명",
+              },
+              {
+                field: "sbjtCd",
+                headerText: "과목코드",
+              },
+              {
+                field: "maLecturerEmplNm",
+                headerText: "교수명",
+              },
+              {
+                field: "ltTmNm",
+                headerText: "시간",
+              },
+              {
+                field: "ltRoomNm",
+                headerText: "강의실",
+              },
+            ],
+            rowHeight: 20,
+            rowDeselected: (args) => drawTimeTable(grid.getSelectedRecords()),
+            rowSelected: (args) => drawTimeTable(grid.getSelectedRecords()),
+          });
+          grid.appendTo("#Grid");
         });
     </script>
     <script>
@@ -176,6 +262,7 @@
 
       const drawTimeTable = (selectedLectures) => {
         timeTableInit();
+        console.log(selectedLectures);
         for (const selectedLecture of selectedLectures) {
           const times = selectedLecture["ltTmNmConv"];
           const hsl = `hsl(${Math.floor(Math.random() * 360)},${Math.floor(
@@ -207,6 +294,17 @@
       };
 
       drawTimeTable([]);
+    </script>
+    <script>
+      fetch(
+        "https://api.github.com/repos/parkjbdev/Ajou-TimeTable/commits?path=list.json&page=1&per_page=1"
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          document.querySelector(
+            "#last_updated"
+          ).innerHTML = `Last Updated: ${data[0]["commit"]["author"]["date"]}`;
+        });
     </script>
   </body>
 </html>
