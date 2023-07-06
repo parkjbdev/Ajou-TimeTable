@@ -286,7 +286,8 @@
                 .querySelectorAll(`#timeblock-${i}>td`.replace(".", "\\."))
                 [day].setAttribute("style", "display:none;");
 
-            timeblock.setAttribute("bgcolor", hsl);
+            // timeblock.setAttribute("bgcolor", hsl);
+            timeblock.setAttribute("style", `background-color:${hsl};`)
             timeblock.setAttribute("rowspan", spanCount);
             timeblock.innerHTML = `${selectedLecture["sbjtKorNm"]}(${selectedLecture["maLecturerEmplNm"]})<br/>${selectedLecture["ltRoomNm"]}`;
           }
